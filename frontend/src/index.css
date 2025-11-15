@@ -1,0 +1,128 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    /* Solana neon gradient theme - dark mode optimized */
+    --background: 240 10% 6%;
+    --foreground: 210 40% 98%;
+
+    --card: 240 8% 10%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 240 10% 8%;
+    --popover-foreground: 210 40% 98%;
+
+    /* Solana purple primary */
+    --primary: 270 91% 65%;
+    --primary-foreground: 0 0% 100%;
+
+    /* Solana blue secondary */
+    --secondary: 220 91% 60%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 240 5% 20%;
+    --muted-foreground: 240 5% 65%;
+
+    /* Solana cyan accent */
+    --accent: 180 91% 60%;
+    --accent-foreground: 240 10% 6%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 240 6% 18%;
+    --input: 240 6% 18%;
+    --ring: 270 91% 65%;
+
+    --radius: 0.75rem;
+
+    /* Solana gradient tokens */
+    --gradient-solana: linear-gradient(135deg, hsl(270 91% 65%) 0%, hsl(220 91% 60%) 100%);
+    --gradient-solana-glow: linear-gradient(135deg, hsl(270 91% 65% / 0.2) 0%, hsl(220 91% 60% / 0.2) 100%);
+    
+    /* Glass effect */
+    --glass-bg: hsl(240 8% 10% / 0.6);
+    --glass-border: hsl(240 6% 25% / 0.3);
+
+    /* Glow effects */
+    --glow-primary: 0 0 20px hsl(270 91% 65% / 0.5);
+    --glow-secondary: 0 0 20px hsl(220 91% 60% / 0.5);
+    --glow-accent: 0 0 20px hsl(180 91% 60% / 0.5);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Space Grotesk', 'Inter', system-ui, -apple-system, sans-serif;
+    letter-spacing: -0.01em;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Space Grotesk', system-ui, sans-serif;
+    letter-spacing: -0.02em;
+  }
+}
+
+@layer utilities {
+  .glass-card {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(12px);
+  }
+
+  .gradient-solana {
+    background: var(--gradient-solana);
+  }
+
+  .gradient-solana-glow {
+    background: var(--gradient-solana-glow);
+  }
+
+  .glow-primary {
+    box-shadow: var(--glow-primary);
+  }
+
+  .glow-secondary {
+    box-shadow: var(--glow-secondary);
+  }
+
+  .glow-accent {
+    box-shadow: var(--glow-accent);
+  }
+
+  .hover-glow-primary {
+    transition: box-shadow 0.3s ease;
+  }
+
+  .hover-glow-primary:hover {
+    box-shadow: var(--glow-primary);
+  }
+
+  .hover-glow-secondary {
+    transition: box-shadow 0.3s ease;
+  }
+
+  .hover-glow-secondary:hover {
+    box-shadow: var(--glow-secondary);
+  }
+
+  /* Minimal spacing utilities */
+  .section-padding {
+    @apply py-16 md:py-24 lg:py-32;
+  }
+
+  .container-tight {
+    @apply max-w-4xl mx-auto px-4;
+  }
+}
