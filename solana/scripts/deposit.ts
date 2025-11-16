@@ -10,10 +10,10 @@ import {
 import { Vault } from '../target/types/vault';
 
 // ====== PASTE FROM init_vault OUTPUT ======
-const VAULT_CONFIG = new anchor.web3.PublicKey('H6JwrBHaJ8H1Ech9rwD65vrMMy1WwNRyyF6hSdtkCYhg');
-const UNDERLYING_MINT = new anchor.web3.PublicKey('E9CKAwuKbayXTxeTyGmBNgBYtDRxZTvGNTXcDrdmhmUC');
-const VAULT_UNDERLYING = new anchor.web3.PublicKey('GqJm7CwdZBgRsZCH1etZGW5mY6XCeibRBY3BTj3Qo9YV');
-const SHARE_MINT = new anchor.web3.PublicKey('5rZr7VL4XvbK5v1rxGpGeJzTbDpDcdRuSDbWcXCNctBG');
+const VAULT_CONFIG = new anchor.web3.PublicKey('FeNCrijvnVfHq3LnDpnpR3SghXQdgMF5DEGFeLSburJ9');
+const UNDERLYING_MINT = new anchor.web3.PublicKey('4oEACgQZ1EGx9ZvSgjDnSJNbdYuYxmDWYtZUfccXbCkB');
+const VAULT_UNDERLYING = new anchor.web3.PublicKey('7LGYFWYRoVHbVfd8WCzWEiMh4sZKQAhDTbHsqTcKBYPt');
+const SHARE_MINT = new anchor.web3.PublicKey('3kG8VaNydBHH6QUAS5sBANScGFUcfVuSYWw1G1dozc4Z');
 
 const DEPOSIT_USDC = 500;
 const DECIMALS = 6;
