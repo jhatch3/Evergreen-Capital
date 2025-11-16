@@ -21,11 +21,6 @@ export const DepositCard = () => {
 
   const vaultSharePrice = 1.0847;
   const estimatedShares = depositAmount ? (parseFloat(depositAmount) / vaultSharePrice).toFixed(4) : '0';
-  
-  // Calculate if deposit amount exceeds balance
-  const depositAmountNum = depositAmount ? parseFloat(depositAmount) : 0;
-  const exceedsBalance = balance !== null && depositAmountNum > balance;
-  const canDeposit = balance !== null && depositAmountNum > 0 && depositAmountNum <= balance;
 
   const handleDeposit = () => {
     if (!connected) {
@@ -33,14 +28,8 @@ export const DepositCard = () => {
       return;
     }
     
-    if (!depositAmount || depositAmountNum <= 0) {
+    if (!depositAmount || parseFloat(depositAmount) <= 0) {
       toast.error('Please enter a valid deposit amount');
-      return;
-    }
-
-    // Check if amount exceeds balance
-    if (balance !== null && depositAmountNum > balance) {
-      toast.error(`Insufficient balance. You have ${balance.toFixed(4)} SOL available.`);
       return;
     }
 
@@ -73,10 +62,10 @@ export const DepositCard = () => {
           {connected && publicKey ? (
             <>
               <div className="text-3xl font-bold text-foreground">
-                {loading && balance === null ? (
+                {loading ? (
                   <span className="text-muted-foreground animate-pulse">Loading...</span>
                 ) : balance !== null && balance !== undefined ? (
-                  <span>{balance.toFixed(4)}</span>
+                  balance.toFixed(4)
                 ) : error ? (
                   <span className="text-yellow-500 text-xl">Error loading</span>
                 ) : (
@@ -84,19 +73,13 @@ export const DepositCard = () => {
                 )}
               </div>
               <div className="text-sm text-muted-foreground mt-1">
-                {loading && balance === null ? (
-                  <span className="text-muted-foreground">Fetching...</span>
-                ) : error ? (
-                  <span className="text-yellow-500">Error fetching data</span>
-                ) : (
-                  <span>SOL</span>
-                )}
+                {error ? 'Check console for details' : 'SOL'}
               </div>
               {error && (
                 <div className="text-xs text-yellow-500 mt-2">
                   {error.message.includes('rate limit') 
-                    ? 'RPC rate limit. Set VITE_SOLANA_RPC_URL in .env' 
-                    : 'Error fetching data'}
+                    ? 'RPC rate limit. Use custom RPC endpoint.' 
+                    : 'Unable to fetch balance'}
                 </div>
               )}
             </>
@@ -126,54 +109,30 @@ export const DepositCard = () => {
                 placeholder="0.00"
                 value={depositAmount}
                 onChange={(e) => setDepositAmount(e.target.value)}
-                className={`text-4xl font-bold h-20 pr-24 border-2 transition-all ${
-                  exceedsBalance 
-                    ? 'border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-500/20' 
-                    : 'border-border focus:border-primary focus:ring-2 focus:ring-primary/20'
-                }`}
+                className="text-4xl font-bold h-20 pr-24 border-2 border-border focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
                 step="0.01"
                 min="0"
-                max={balance !== null ? balance : undefined}
               />
               <div className="absolute right-5 top-1/2 -translate-y-1/2">
                 <span className="text-xl font-semibold text-muted-foreground">SOL</span>
               </div>
             </div>
-            {exceedsBalance && balance !== null && (
-              <p className="text-sm text-red-500 mt-1">
-                Insufficient balance. You have {balance.toFixed(4)} SOL available.
-              </p>
-            )}
             
             {/* Quick Amount Buttons */}
             <div className="flex gap-2">
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => {
-                  if (balance !== null && balance >= 1) {
-                    setDepositAmount('1');
-                  } else {
-                    toast.error('Insufficient balance. You need at least 1 SOL.');
-                  }
-                }}
+                onClick={() => setDepositAmount('1')}
                 className="flex-1 h-9 text-sm font-medium hover:bg-muted/50"
-                disabled={balance === null || loading || (balance !== null && balance < 1)}
               >
                 1 SOL
               </Button>
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => {
-                  if (balance !== null && balance >= 5) {
-                    setDepositAmount('5');
-                  } else {
-                    toast.error(`Insufficient balance. You have ${balance?.toFixed(4) || '0'} SOL available.`);
-                  }
-                }}
+                onClick={() => setDepositAmount('5')}
                 className="flex-1 h-9 text-sm font-medium hover:bg-muted/50"
-                disabled={balance === null || loading || (balance !== null && balance < 5)}
               >
                 5 SOL
               </Button>
@@ -210,15 +169,11 @@ export const DepositCard = () => {
 
         {/* Deposit Button */}
         <Button
-          className="w-full h-14 bg-gradient-evergreen hover:opacity-90 text-lg font-semibold text-white shadow-xl hover:shadow-2xl transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full h-14 bg-gradient-evergreen hover:opacity-90 text-lg font-semibold text-white shadow-xl hover:shadow-2xl transition-all"
           onClick={handleDeposit}
-          disabled={!connected || !depositAmount || depositAmountNum <= 0 || exceedsBalance || !canDeposit}
+          disabled={!connected || !depositAmount || parseFloat(depositAmount) <= 0}
         >
-          {connected 
-            ? exceedsBalance 
-              ? 'Insufficient Balance' 
-              : 'Deposit SOL' 
-            : 'Connect Wallet to Continue'}
+          {connected ? 'Deposit SOL' : 'Connect Wallet to Continue'}
         </Button>
       </div>
     </Card>

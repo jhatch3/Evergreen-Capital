@@ -1,4 +1,5 @@
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
+const SOLANA_API_BASE_URL = import.meta.env.VITE_SOLANA_API_BASE_URL || 'http://localhost:3001';
 
 // ============================================================================
 // TYPE DEFINITIONS
@@ -636,5 +637,59 @@ export const fetchReportSummary = async (): Promise<ReportSummary | null> => {
     return await response.json();
   } catch (error) {
     return handleFetchError(error, null);
+  }
+};
+
+// ============================================================================
+// SOLANA BALANCE (Backend Proxy)
+// ============================================================================
+
+/**
+ * Fetches SOL balance from backend API
+ * This avoids CORS and rate limit issues by calling the backend instead of
+ * directly calling Solana RPC from the browser.
+ * 
+ * @param address - Solana wallet address (public key)
+ * @returns Promise that resolves to balance in SOL
+ * @throws Error if the request fails
+ */
+export const fetchBalanceFromBackend = async (address: string): Promise<number> => {
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+    
+    const url = `${SOLANA_API_BASE_URL}/api/sol-balance?address=${encodeURIComponent(address)}`;
+    
+    const response = await fetch(url, {
+      signal: controller.signal,
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    
+    clearTimeout(timeoutId);
+    
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({ error: 'Unknown error' }));
+      throw new Error(`Backend error: ${response.status} - ${errorData.error || response.statusText}`);
+    }
+    
+    const data = await response.json();
+    
+    // Validate response structure
+    if (typeof data.balance !== 'number') {
+      throw new Error('Invalid response format: balance is not a number');
+    }
+    
+    return data.balance;
+  } catch (error) {
+    if (error instanceof Error) {
+      if (error.name === 'AbortError') {
+        throw new Error('Request timeout: Backend did not respond in time');
+      }
+      throw error;
+    }
+    throw new Error('Failed to fetch balance from backend');
   }
 };

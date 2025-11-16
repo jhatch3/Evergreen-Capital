@@ -36,8 +36,8 @@ export const SolanaWalletProvider: FC<SolanaWalletProviderProps> = ({ children }
     // These are public endpoints that may have rate limits
     // For production, use a paid RPC provider (Helius, QuickNode, etc.)
     const fallbackEndpoints = [
-      'https://solana-api.projectserum.com', // Serum RPC
-      'https://api.mainnet-beta.solana.com', // Official Solana RPC (rate limited)
+      'https://api.mainnet-beta.solana.com', // Official Solana RPC (rate limited but more reliable)
+      'https://solana-api.projectserum.com', // Serum RPC (backup)
     ];
     
     // Return the first endpoint (can implement rotation logic if needed)

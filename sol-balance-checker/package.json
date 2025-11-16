@@ -1,0 +1,26 @@
+{
+  "name": "sol-balance-checker",
+  "version": "1.0.0",
+  "description": "Simple CLI tool to check SOL balance for a Solana wallet address",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
+  "keywords": [
+    "solana",
+    "wallet",
+    "balance",
+    "cli"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@solana/web3.js": "^1.87.6"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "typescript": "^5.3.3"
+  }
+}
+

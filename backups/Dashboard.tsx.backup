@@ -18,7 +18,7 @@ import { Percent, Activity, AlertTriangle, Wallet, Coins, TrendingUp, TrendingDo
 
 const Dashboard = () => {
   const { publicKey } = useWallet();
-  const { balance: solBalance, loading: solBalanceLoading } = useSolBalance();
+  const { balance: solBalance } = useSolBalance();
   const [vaultStats, setVaultStats] = useState<VaultStats | null>(null);
   const [commentary, setCommentary] = useState<AgentCommentary | null>(null);
   const [portfolioAmountHistory, setPortfolioAmountHistory] = useState<PortfolioAmountPoint[]>([]);
@@ -130,20 +130,10 @@ const Dashboard = () => {
                 SOL Balance
               </h3>
               <div className="text-2xl font-bold mb-1">
-                {solBalanceLoading ? (
-                  <span className="text-muted-foreground animate-pulse">Loading...</span>
-                ) : solBalance !== null && solBalance !== undefined ? (
-                  <span>{solBalance.toFixed(4)} SOL</span>
-                ) : (
-                  <span className="text-muted-foreground">0.0000 SOL</span>
-                )}
+                <span>{solBalance !== null ? `${solBalance.toFixed(4)} SOL` : 'Loading...'}</span>
               </div>
               <p className="text-xs text-muted-foreground">
-                {!solBalanceLoading && solBalance !== null && solBalance !== undefined ? (
-                  <span>≈ ${(solBalance * 150).toFixed(2)} USD</span>
-                ) : solBalanceLoading ? (
-                  <span className="text-muted-foreground">Fetching balance...</span>
-                ) : null}
+                <span>{solBalance !== null ? `≈ $${(solBalance * 150).toFixed(2)} USD` : ''}</span>
               </p>
             </Card>
 
@@ -330,33 +320,42 @@ const Dashboard = () => {
                       <tr className="border-b border-border/50">
                         <th className="text-left py-3 px-4 text-sm font-semibold text-muted-foreground">Bet</th>
                         <th className="text-left py-3 px-4 text-sm font-semibold text-muted-foreground">Side</th>
-                        <th className="text-right py-3 px-4 text-sm font-semibold text-muted-foreground">Vault Amount Bet</th>
                         <th className="text-right py-3 px-4 text-sm font-semibold text-muted-foreground">Portfolio Amount Bet</th>
-                        <th className="text-right py-3 px-4 text-sm font-semibold text-muted-foreground">Vault Payout</th>
                         <th className="text-right py-3 px-4 text-sm font-semibold text-muted-foreground">Portfolio Payout</th>
+                        <th className="text-right py-3 px-4 text-sm font-semibold text-muted-foreground">+% Win</th>
                         <th className="text-left py-3 px-4 text-sm font-semibold text-muted-foreground">Close Date</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {positions.map((position, index) => (
-                        <tr key={index} className="border-b border-border/30 hover:bg-muted/20 transition-colors">
-                          <td className="py-3 px-4 text-sm">{position.betDescription}</td>
-                          <td className="py-3 px-4">
-                            <span className={`inline-flex items-center px-2 py-1 rounded text-xs font-medium ${
-                              position.vote === 'YES' 
-                                ? 'bg-green-500/20 text-green-500' 
-                                : 'bg-red-500/20 text-red-500'
-                            }`}>
-                              {position.vote}
-                            </span>
-                          </td>
-                          <td className="py-3 px-4 text-sm text-right font-medium">{position.hedgeBetAmount}</td>
-                          <td className="py-3 px-4 text-sm text-right font-medium">{position.myShare}</td>
-                          <td className="py-3 px-4 text-sm text-right font-medium text-green-500">{position.hedgeWinAmount || '-'}</td>
-                          <td className="py-3 px-4 text-sm text-right font-medium text-green-500">{position.myWinAmount || '-'}</td>
-                          <td className="py-3 px-4 text-sm text-muted-foreground">{position.closeDate || '-'}</td>
-                        </tr>
-                      ))}
+                      {positions.map((position, index) => {
+                        // Calculate return percentage (always positive - represents return rate)
+                        const betAmount = parseFloat(position.myShare?.replace(/[^0-9.-]/g, '') || '0');
+                        const payoutAmount = parseFloat(position.myWinAmount?.replace(/[^0-9.-]/g, '') || '0');
+                        const returnPercentage = betAmount > 0 && payoutAmount > 0 
+                          ? (payoutAmount / betAmount * 100).toFixed(2)
+                          : '0.00';
+                        
+                        return (
+                          <tr key={index} className="border-b border-border/30 hover:bg-muted/20 transition-colors">
+                            <td className="py-3 px-4 text-sm">{position.betDescription}</td>
+                            <td className="py-3 px-4">
+                              <span className={`inline-flex items-center px-2 py-1 rounded text-xs font-medium ${
+                                position.vote === 'YES' 
+                                  ? 'bg-green-500/20 text-green-500' 
+                                  : 'bg-red-500/20 text-red-500'
+                              }`}>
+                                {position.vote}
+                              </span>
+                            </td>
+                            <td className="py-3 px-4 text-sm text-right font-medium">{position.myShare}</td>
+                            <td className="py-3 px-4 text-sm text-right font-medium text-green-500">{position.myWinAmount || '-'}</td>
+                            <td className="py-3 px-4 text-sm text-right font-semibold text-green-500">
+                              +{returnPercentage}%
+                            </td>
+                            <td className="py-3 px-4 text-sm text-muted-foreground">{position.closeDate || '-'}</td>
+                          </tr>
+                        );
+                      })}
                     </tbody>
                   </table>
                 </div>
