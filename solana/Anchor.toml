@@ -21,3 +21,6 @@ wallet = "~/.config/solana/id.json"
 [scripts]
 test = "yarn run ts-mocha tests/vault.test.ts"
 localnet = "yarn run ts-mocha scripts/localnet.ts"
+init_vault = "yarn run ts-node -P tsconfig.json scripts/init_vault.ts"
+deposit = "yarn run ts-node -P tsconfig.json scripts/deposit.ts"
+withdraw = "yarn run ts-node -P tsconfig.json scripts/withdraw.ts"

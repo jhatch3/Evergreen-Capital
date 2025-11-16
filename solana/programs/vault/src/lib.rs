@@ -1,5 +1,5 @@
 use anchor_lang::prelude::*;
-use anchor_spl::associated_token::AssociatedToken;
+//use anchor_spl::associated_token::AssociatedToken;
 use anchor_spl::token::{self, Mint, MintTo, Token, TokenAccount, Transfer};
 
 pub mod state;
@@ -231,15 +231,13 @@ pub struct Deposit<'info> {
     pub user_underlying_ata: Account<'info, TokenAccount>,
 
     #[account(
-        init,
-        payer = user,
-        associated_token::mint = share_mint,
-        associated_token::authority = user
+        mut,
+        constraint = user_share_ata.owner == user.key(),
+        constraint = user_share_ata.mint == vault_config.share_mint,
     )]
     pub user_share_ata: Account<'info, TokenAccount>,
 
     pub token_program: Program<'info, Token>,
-    pub associated_token_program: Program<'info, AssociatedToken>,
     pub system_program: Program<'info, System>,
     pub rent: Sysvar<'info, Rent>,
 }
@@ -284,7 +282,7 @@ pub struct Withdraw<'info> {
     pub user_share_ata: Account<'info, TokenAccount>,
 
     pub token_program: Program<'info, Token>,
-    pub associated_token_program: Program<'info, AssociatedToken>,
+    // ❌ remove associated_token_program
     pub system_program: Program<'info, System>,
     pub rent: Sysvar<'info, Rent>,
 }
