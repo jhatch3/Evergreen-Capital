@@ -1,6 +1,6 @@
 🌲 Evergreen Capital
 
-Under Construction Until the legalization of Poly Market Betting In the USA 
+Under Construction Until the legalization of Poly Market Betting In the USA - (Bare Bones MVP)
 
 💻 Demo 
 
