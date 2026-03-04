@@ -7,7 +7,7 @@
 **Project Not Completed**
 - Under Construction Until the legalization of Poly Market Betting In the USA - (Bare Bones MVP)
 
-💻 Demo 
+# 💻 Demo 
 
 - *Mock Data*   
   <p align="center">
@@ -23,7 +23,7 @@
   </p>
 
 
-🚀 Inspiration
+# 🚀 Inspiration
 
 We wanted to answer a simple question:
 
@@ -37,7 +37,7 @@ Prediction markets already encode the world’s information, and Solana gives th
 - On-chain portfolio management
 - A hedge fund that never sleeps.
 
-💡 What Evergreen Capital Does
+# 💡 What Evergreen Capital Does
 
 Evergreen allows anyone to stake SOL into a shared liquidity pool managed by a network of Gemini research agents.
 
@@ -52,7 +52,7 @@ The system:
 Essentially:
 - You deposit SOL → the AI hedge fund trades → profits return to you.
 
-🧠 The Evergreen Research Desk
+# 🧠 The Evergreen Research Desk
 
 Evergreen uses five Gemini agents, each modeled after a different hedge-fund analyst archetype:
 - The Quant – statistical edge, probability weighting
@@ -64,7 +64,7 @@ Evergreen uses five Gemini agents, each modeled after a different hedge-fund ana
 Agents debate the trade just like a real investment committee.
 But faster.
 
-⚙️ How We Built the Hedge Fund Stack
+# ⚙️ How We Built the Hedge Fund Stack
 1. Data Pipeline & Snowflake Warehouse
    
 - Scrape Polymarket markets + external narratives
@@ -87,7 +87,7 @@ But faster.
 Distributes returns back to participants
 
 
-📚 What We Learned
+# 📚 What We Learned
 
 - AI hedge funds live or die by data quality
 - Multi-agent research dramatically improves conviction
@@ -96,7 +96,7 @@ Distributes returns back to participants
 - Vibe Coding is supper hard at 2:00 am
 - Testing this in a 24hr period is hard, polymarket is ilegal in USA 
 
-🔮 What’s Next
+# 🔮 What’s Next
 
 - Polymarket becomes legal in the USA this year (2025), Until then we will be working on other consulting projects. 
 - integrate full back end and full front end, data now is most mock data.
@@ -106,7 +106,7 @@ Distributes returns back to participants
 - Move toward a fully permissionless “stake → earn” model
 - Evergreen aims to become the first fully autonomous, transparent, on-chain hedge fund powered by AI.
 
-🛠 Built With
+# 🛠 Built With
 
 - Backend: FastAPI, Python, Pydantic, Uvicorn
 - AI Research Desk: Gemini
