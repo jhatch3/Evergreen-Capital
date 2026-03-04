@@ -1,4 +1,6 @@
-🌲 Evergreen Capital
+🌲 Evergreen Capital - MVP
+
+**Project Not Completed**
 
 Under Construction Until the legalization of Poly Market Betting In the USA - (Bare Bones MVP)
 
