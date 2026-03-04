@@ -1,8 +1,11 @@
 🌲 Evergreen Capital - MVP
 
-**Project Not Completed**
+# QuackHacks II Awards
+- Solana Track 1st Place
+- Polymarket Track 2nd Place
 
-Under Construction Until the legalization of Poly Market Betting In the USA - (Bare Bones MVP)
+**Project Not Completed**
+- Under Construction Until the legalization of Poly Market Betting In the USA - (Bare Bones MVP)
 
 💻 Demo 
 
